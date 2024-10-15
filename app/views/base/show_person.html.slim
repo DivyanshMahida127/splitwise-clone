@@ -1,0 +1,14 @@
+.dashboard-wrapper
+  aside.side-bar-area
+    .friends-list
+      p.friends-list-header Friends
+      = render 'friends_list', users: @users, current_user_id: @current_user_id
+  .main-area
+    .top-bar
+      h1.top-bar-title = @user.name
+      .top-bar-actions
+        a href=root_path Your Dashboard
+    .dashboard-balances
+      = render 'dashboard_balances', dues: @dues
+.expenses-wrapper
+  = render 'user_expenses', expenses: @expenses

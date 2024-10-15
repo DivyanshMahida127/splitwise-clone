@@ -1,0 +1,57 @@
+.dashboard-wrapper
+  aside.side-bar-area
+    .friends-list
+      p.friends-list-header Friends
+      = render 'friends_list', users: @users, current_user_id: @current_user_id
+  .main-area
+    .top-bar
+      h1.top-bar-title Dashboard
+      .top-bar-actions
+        button.btn.btn-primary type="button" data-bs-toggle="modal" data-bs-target="#expenseModal"  Add an expense
+        button.btn.btn-secondary type="button" disabled="true"  Settle up
+    .dashboard-balances
+      = render 'dashboard_balances', dues: @dues
+.expenses-wrapper
+  = render 'user_expenses', expenses: @expenses
+#expenseModal.modal.fade aria-hidden="true" aria-labelledby="expenseModalLabel" tabindex="-1" 
+  .modal-dialog
+    .modal-content
+      .modal-header
+        h5#expenseModalLabel.modal-title Add an Expense
+        button.btn-close aria-label="Close" data-bs-dismiss="modal" type="button" 
+      .modal-body
+        = form_with model: @expense, local: true do |form|
+          .form-group.mb-2
+            = form.label :title, class: 'mb-1'
+            = form.text_field :title, class: 'form-control'
+
+          .form-group.mb-2
+            = form.label :description, class: 'mb-1'
+            = form.text_area :description, class: 'form-control'
+
+          .form-group.mb-2
+            = form.label :date, "Date : ", class: 'mb-1 me-2'
+            = form.date_field :date, class: 'form-control', required: true
+
+          .form-group.mb-2
+            = form.label :amount, class: 'mb-1'
+            = form.number_field :amount, step: 0.01, class: 'form-control', required: true
+
+          .form-group.mb-2
+            = form.label :paid_by, class: 'mb-1'
+            = form.collection_select :paid_by_id, @users, :first, :last, { prompt: 'Select User' }, class: 'form-control', required: true
+
+          h5 Split with:
+          = select_tag 'user_ids[]', options_from_collection_for_select(@users, :first, :last, current_user.id), { prompt: 'Select Users', class: 'form-select', multiple: true, id: 'choices-multiple-remove-button' }
+
+          h5
+            = radio_button_tag 'split_type', 'equally', false, id: 'equally_split', class: 'me-3', required: true
+            = label_tag 'equally_split', 'Equally Split', class: 'me-3'
+            = radio_button_tag 'split_type', 'unequally', false, id: 'unequally_split', class: 'me-3', required: true
+            = label_tag 'unequally_split', 'Unequal Split', class: 'me-3'
+
+          #user-expenses-container
+
+          = form.submit 'Create Expense', class: 'btn btn-primary', id: 'expense-submit-button'
+      .modal-footer
+        button.btn.btn-secondary data-bs-dismiss="modal" type="button" Close

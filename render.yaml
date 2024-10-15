@@ -1,0 +1,5 @@
+databases:
+  - name: splitwise-clone-postgres
+    databaseName: splitwise_clone_db
+    user: divyansh
+    plan: free

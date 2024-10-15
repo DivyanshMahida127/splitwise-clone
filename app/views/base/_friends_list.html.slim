@@ -1,0 +1,3 @@
+- users.each do |user_id, user_name|
+  - if user_id != current_user_id
+    = link_to user_name, show_person_path(user_id), class: 'friend-name'

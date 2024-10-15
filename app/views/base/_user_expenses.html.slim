@@ -1,0 +1,18 @@
+- if expenses.present?
+  p Expenses Paid by You
+  table.table
+    thead
+      tr
+        th.col-3 Title
+        th.col-5 Description
+        th.col-2 Date
+        th.col-2 Amount
+    tbody
+      - expenses.each do |e|
+        tr
+          td = e.title
+          td = e.description
+          td = e.date
+          td = e.amount
+- else
+  p There are no expenses paid by you.

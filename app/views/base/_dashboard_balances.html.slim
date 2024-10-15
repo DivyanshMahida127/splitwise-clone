@@ -1,0 +1,29 @@
+.balances-bar
+  .balance-block
+    p Total Balance
+    p = number_to_currency(dues[:total_you_are_owed] - dues[:total_you_owe])
+  .balance-block
+    p You Owe
+    p = number_to_currency(dues[:total_you_owe])
+  .balance-block
+    p You are Owed
+    p = number_to_currency(dues[:total_you_are_owed])
+.dashboard-detail
+  .detail-block
+    h2.detail-title You Owe
+    - dues[:total_you_owe_array].each do |owe|
+      - if owe[:net_due] < 0
+        .user-detail
+          img.user-img alt="profile" src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png" /
+          .user-info
+            p = owe[:friend_name]
+            p owes #{number_to_currency(owe[:net_due]*(-1))}
+  .detail-block
+    h2.detail-title You are owed
+    - dues[:total_you_are_owed_array].each do |due|
+      - if due[:net_due] >= 0
+        .user-detail
+          img.user-img alt="profile" src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png" /
+          .user-info
+            p = due[:friend_name]
+            p  #{number_to_currency(due[:net_due])}
